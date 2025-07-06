@@ -2,6 +2,11 @@ import { Request, Response } from "express";
 import WooOrder from "../models/Order";
 import { OrderQuerySchema } from "../validators/orderQuerySchema";
 import { SortOrder } from "mongoose";
+import {
+  sendErrorResponse,
+  sendSuccessResponse,
+} from "../utils/responseHandlers";
+import commonTextMap from "../contentMap/commonTextMap";
 
 export async function getAllOrders(
   req: Request<unknown, unknown, unknown, OrderQuerySchema["query"]>,
@@ -50,13 +55,33 @@ export async function getAllOrders(
       .skip((numericPage - 1) * numericLimit)
       .limit(numericLimit);
 
-    res.json({
-      total: totalOrders,
-      page: numericPage,
-      limit: numericLimit,
-      orders,
-    });
-  } catch (error: any) {
-    res.status(500).json({ message: "Failed to fetch orders." });
+    sendSuccessResponse(
+      res,
+      {
+        total: totalOrders,
+        page: numericPage,
+        limit: numericLimit,
+        orders,
+      },
+      commonTextMap.x_fetched_successfully("Orders")
+    );
+  } catch (error) {
+    sendErrorResponse(res, commonTextMap.x_fetch_failed("orders"));
   }
 }
+
+export const getOrderDetail = async (req: Request, res: Response) => {
+  try {
+    const orderId = Number(req.params.id);
+
+    const order = await WooOrder.findOne({ id: orderId });
+
+    if (!order) {
+      sendErrorResponse(res, commonTextMap.x_not_found("Order"), null, 404);
+    }
+
+    sendSuccessResponse(res, order);
+  } catch (error) {
+    sendErrorResponse(res, commonTextMap.x_fetch_failed("order detail"));
+  }
+};
