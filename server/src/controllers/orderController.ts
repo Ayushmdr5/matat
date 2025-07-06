@@ -20,6 +20,7 @@ export async function getAllOrders(
       sortOrder = "desc",
       search = "",
       status,
+      productId,
     } = req.query;
 
     const numericPage = parseInt(page);
@@ -47,6 +48,10 @@ export async function getAllOrders(
     const sort: { [key: string]: SortOrder } = {
       [sortBy]: sortOrder === "asc" ? 1 : -1,
     };
+
+    if (productId) {
+      query["line_items.product_id"] = +productId;
+    }
 
     const totalOrders = await WooOrder.countDocuments(query);
 

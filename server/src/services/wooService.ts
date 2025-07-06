@@ -2,33 +2,8 @@ import { IWooOrder, IWooProduct } from "../types/wooCommerce";
 import wooApi from "./wooAxiosInstance";
 import WooOrder from "../models/Order";
 import WooProduct from "../models/Product";
-import { before } from "node:test";
 import { AxiosResponse } from "axios";
 import { parsePrice } from "../utils/general";
-
-// // Fetch a single product by ID
-// export const fetchProductById = async (id: number): Promise<IWooProduct> => {
-//   const { data } = await wooApi.get(`/products/${id}`);
-//   return data;
-// };
-
-// // Fetch all orders
-// export async function getOrdersLast30Days() {
-//   const date = new Date();
-//   date.setDate(date.getDate() - 30);
-//   const afterDate = date.toISOString();
-
-//   const response = await wooApi.get("orders", {
-//     params: {
-//       after: "2024-01-01T00:00:00",
-//       before: "2024-01-02T00:00:00",
-//       per_page: 100, // max per request
-//       orderby: "date",
-//       order: "desc",
-//     },
-//   });
-//   return response?.data;
-// }
 
 const THIRTY_DAYS_AGO = new Date(
   Date.now() - 30 * 24 * 60 * 60 * 1000
@@ -170,11 +145,6 @@ export async function deleteUnmodifiedOrdersAndOrphanedProducts() {
     const deletedProducts = await WooProduct.deleteMany({
       id: { $nin: usedProductIds },
     });
-    console.log("object", deletedOrders, usedProductIds, deletedProducts);
-
-    console.log(
-      "Deleted orders not modified in last 3 months and orphaned products"
-    );
   } catch (error: any) {
     console.error(
       "Failed to clean up old orders and products:",

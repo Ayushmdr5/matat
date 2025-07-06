@@ -3,7 +3,7 @@ import { getAllOrders, getOrderDetail } from "../controllers/orderController";
 
 import validate from "../middleware/validate";
 import { orderQuerySchema } from "../validators/orderQuerySchema";
-import { idParamsSchema } from "../controllers/generalSchema";
+import { idParamsSchema } from "../validators/generalSchema";
 
 const router = express.Router();
 

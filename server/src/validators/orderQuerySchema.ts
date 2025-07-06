@@ -34,6 +34,12 @@ export const orderQuerySchema = z.object({
         "trash",
       ])
       .optional(),
+    productId: z
+      .string()
+      .optional()
+      .refine((val) => !val || !isNaN(+val), {
+        message: "Product ID must be a number",
+      }),
   }),
 });
 

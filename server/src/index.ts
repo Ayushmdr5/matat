@@ -8,6 +8,7 @@ import {
   syncOrdersAndProducts,
 } from "./services/wooService";
 import orderRoutes from "./routes/orderRoutes";
+import productRoutes from "./routes/productRoutes";
 
 dotenv.config();
 const app = express();
@@ -15,6 +16,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/orders", orderRoutes);
+app.use("/api/products", productRoutes);
 
 connectDB().then(() => {
   app.listen(process.env.PORT, async () => {
