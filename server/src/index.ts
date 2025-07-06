@@ -7,11 +7,14 @@ import {
   deleteUnmodifiedOrdersAndOrphanedProducts,
   syncOrdersAndProducts,
 } from "./services/wooService";
+import orderRoutes from "./routes/orderRoutes";
 
 dotenv.config();
 const app = express();
 
 app.use(express.json());
+
+app.use("/api/orders", orderRoutes);
 
 connectDB().then(() => {
   app.listen(process.env.PORT, async () => {

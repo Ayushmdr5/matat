@@ -8,7 +8,7 @@ const orderSchema = new mongoose.Schema(
     status: String,
     date_created: Date,
     date_modified: Date,
-    total: String,
+    total: Number,
     customer_id: Number,
     customer_note: String,
     billing: {
@@ -42,7 +42,7 @@ const orderSchema = new mongoose.Schema(
         name: String,
         product_id: Number,
         quantity: Number,
-        total: String,
+        total: Number,
         sku: String,
         price: Number,
         image: {

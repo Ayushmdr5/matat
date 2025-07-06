@@ -72,7 +72,7 @@ export async function syncOrdersAndProducts() {
           status: order.status,
           date_created: new Date(order.date_created),
           date_modified: new Date(order.date_modified),
-          total: order.total,
+          total: parsePrice(order.total),
           customer_id: order.customer_id,
           customer_note: order.customer_note,
           billing: order.billing,
@@ -82,7 +82,7 @@ export async function syncOrdersAndProducts() {
             name: item.name,
             product_id: item.product_id,
             quantity: item.quantity,
-            total: item.total,
+            total: parsePrice(item.total),
             sku: item.sku,
             price: item.price,
             image: item.image
