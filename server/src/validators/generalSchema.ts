@@ -1,4 +1,3 @@
-// validators/commonParamsSchema.ts
 import { z } from "zod";
 
 export const idParamsSchema = z.object({

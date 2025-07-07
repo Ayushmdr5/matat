@@ -1,11 +1,16 @@
-// utils/responseHandlers.ts
-
 import { Response } from "express";
+
+interface PaginationMeta {
+  total: number;
+  page: number;
+  limit: number;
+}
 
 interface SuccessResponse<T> {
   success: true;
   data: T;
   message?: string;
+  pagination?: PaginationMeta;
 }
 
 interface ErrorResponse {
@@ -18,13 +23,16 @@ export function sendSuccessResponse<T>(
   res: Response,
   data: T,
   message?: string,
-  statusCode = 200
+  statusCode = 200,
+  pagination?: PaginationMeta
 ) {
   const response: SuccessResponse<T> = {
     success: true,
     data,
+    ...(message && { message }),
+    ...(pagination && { pagination }),
   };
-  if (message) response.message = message;
+
   return res.status(statusCode).json(response);
 }
 

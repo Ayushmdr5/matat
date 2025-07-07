@@ -23,15 +23,18 @@ export const orderQuerySchema = z.object({
     sortOrder: z.enum(["asc", "desc"]).optional().default("desc"),
     search: z.string().optional().default(""),
     status: z
-      .enum([
-        "pending",
-        "processing",
-        "on-hold",
-        "completed",
-        "cancelled",
-        "refunded",
-        "failed",
-        "trash",
+      .union([
+        z.enum([
+          "pending",
+          "processing",
+          "on-hold",
+          "completed",
+          "cancelled",
+          "refunded",
+          "failed",
+          "trash",
+        ]),
+        z.literal(""),
       ])
       .optional(),
     productId: z
