@@ -35,3 +35,5 @@ dist/
 
 # Optional: OS-specific files
 Thumbs.db
+
+.vite/

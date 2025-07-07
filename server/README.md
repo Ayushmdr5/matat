@@ -46,6 +46,7 @@ This is the backend of the MERN stack application for syncing products and order
    WOO_BASE_URL=https://interview-test.matat.io
    WOO_CONSUMER_KEY=ck_xxxxxxxx
    WOO_CONSUMER_SECRET=cs_xxxxxxxx
+   CRON_SCHEDULE=
    ```
 
 4. **Run the server**:
