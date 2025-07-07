@@ -7,6 +7,7 @@ import {
 } from "../utils/responseHandlers";
 import { SortOrder } from "mongoose";
 import { ProductQuerySchema } from "../validators/productQuerySchema";
+import commonTextMap from "../contentMap/commonTextMap";
 
 export const getAllProducts = async (
   req: Request<unknown, unknown, unknown, ProductQuerySchema["query"]>,
@@ -56,12 +57,17 @@ export const getAllProducts = async (
       })
     );
 
-    sendSuccessResponse(res, {
-      total: totalProducts,
-      page: numericPage,
-      limit: numericLimit,
-      products: productsWithCounts,
-    });
+    sendSuccessResponse(
+      res,
+      productsWithCounts,
+      commonTextMap.x_fetched_successfully("Products"),
+      200,
+      {
+        total: totalProducts,
+        limit: numericLimit,
+        page: numericPage,
+      }
+    );
   } catch (error: any) {
     sendErrorResponse(res, "Failed to fetch products");
   }

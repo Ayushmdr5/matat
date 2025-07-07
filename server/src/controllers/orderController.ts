@@ -58,17 +58,30 @@ export async function getAllOrders(
     const orders = await WooOrder.find(query)
       .sort(sort)
       .skip((numericPage - 1) * numericLimit)
-      .limit(numericLimit);
+      .limit(numericLimit)
+      .select({
+        id: 1,
+        "billing.first_name": 1,
+        "billing.last_name": 1,
+        "shipping.first_name": 1,
+        "shipping.last_name": 1,
+        "line_items.name": 1,
+        "line_items.id": 1,
+        status: 1,
+        total: 1,
+        date_created: 1,
+      });
 
     sendSuccessResponse(
       res,
+      orders,
+      commonTextMap.x_fetched_successfully("Orders"),
+      200,
       {
         total: totalOrders,
-        page: numericPage,
         limit: numericLimit,
-        orders,
-      },
-      commonTextMap.x_fetched_successfully("Orders")
+        page: numericPage,
+      }
     );
   } catch (error) {
     sendErrorResponse(res, commonTextMap.x_fetch_failed("orders"));
